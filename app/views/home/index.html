@@ -1,15 +1,26 @@
 {% extends '../layouts/default.html' %}
 
-{% block main %}
-  <h2>{{ title }}</h2>
-{% endblock %}
-
 {% block content %}
-  <ol>
-    <li>Awesome! Now add some routes, models, views and controllers.</li>
-    <li>
-      Change the content of
-      <code>app/views/home/index.html</code>
-    </li>
-  </ol>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr class="row">
+        <th class="col-sm-3">店名</th>
+        <th class="col-sm-5">地址</th>
+        <th class="col-sm-2">联系人</th>
+        <th class="col-sm-2">电话</th>
+      </tr>
+    </thead>
+    <tbody>
+    	{% for shop in list %}
+	      <tr class="row">
+	      	<td class="col-sm-3">{{ shop.name }}</td>
+	        <td class="col-sm-5">{{ shop.address }}</td>
+	        <td class="col-sm-2">{{ shop.owner }}</td>
+	        <td class="col-sm-2">{{ shop.phone }}</td>
+	      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

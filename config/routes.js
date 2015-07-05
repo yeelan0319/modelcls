@@ -5,14 +5,16 @@
 
 var mongoose = require('mongoose');
 var home = require('home');
+var xiaoniuRepair = require('xiaoniu-repair');
 
 /**
  * Expose
  */
 
-module.exports = function (app, passport) {
+module.exports = function (app) {
 
   app.get('/', home.index);
+  app.get('/xiaoniu-repair', xiaoniuRepair.index);
 
   /**
    * Error handling
