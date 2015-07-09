@@ -11,14 +11,14 @@ var Schema = mongoose.Schema;
 
 var NiuRepairSchema = new Schema({
 	id: { type: String, default: ''},
-  provinceId: { type: String, default: '' },
-  cityId: { type: String, default: '' },
-  name: { type: String, default: '' },
-  address: { type: String, default: '' },
-  owner: { type: String, default: '' },
-  phone: { type: String, default: '' },
-  ctime: { type: Date, default: Date.now() },
-  utime: { type: Date, default: '' }
+	name: { type: String, default: '' },
+	province: { type: String, default: '' },
+	city: { type: String, default: '' },
+	address: { type: String, default: '' },
+	owner: { type: String, default: '' },
+	phone: { type: String, default: '' },
+	ctime: { type: Date, default: Date.now() },
+	utime: { type: Date, default: Date.now() }
 });
 
 /**
@@ -32,17 +32,25 @@ var NiuRepairSchema = new Schema({
  * Methods
  */
 
-NiuRepairSchema.method({
-
-});
+NiuRepairSchema.methods = {
+	find: function(id, cb){
+		this.findOne({id: id})
+			.exec(cb);
+	}
+};
 
 /**
  * Statics
  */
-
-NiuRepairSchema.static({
-
-});
+NiuRepairSchema.statics.list = function(cb){
+	this.find({}, function(error, list){
+      cb(error, list);
+  });
+};
+NiuRepairSchema.statics.findById = function(id, cb){
+	this.findOne({id: id})
+		.exec(cb);
+};
 
 /**
  * Register

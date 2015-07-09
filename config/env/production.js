@@ -4,5 +4,5 @@
  */
 
 module.exports = {
-  db: 'mongodb://localhost/your_project_production',
+  db: 'mongodb://localhost/modelcls',
 };

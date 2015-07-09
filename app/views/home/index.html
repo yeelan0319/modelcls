@@ -5,21 +5,45 @@
   <table class="table table-striped">
     <thead>
       <tr class="row">
+        <th class="col-sm-1">
+          <div class="dropdown province">
+            <span id="dLabel" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              省份
+              <i class="material-icons">&#xE5C5;</i>
+            </span>
+            <ul class="dropdown-menu" aria-labelledby="dLabel">
+              <li><label><input class="check-all" type="checkbox" checked>全选</label></li>
+              <li role="separator" class="divider"></li>
+              <div class="dropdown-checklist">
+              </div>
+            </ul>
+            &nbsp;
+            <i class="material-icons sort-button">&#xE8D5;</i>
+          </div>
+        </th>
+        <th class="col-sm-1">
+          <div class="dropdown city">
+            <span id="dLabel" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              城市
+              <i class="material-icons">&#xE5C5;</i>
+            </span>
+            <ul class="dropdown-menu" aria-labelledby="dLabel">
+              <li><label><input class="check-all" type="checkbox" checked>全选</label></li>
+              <li role="separator" class="divider"></li>
+              <div class="dropdown-checklist">
+              </div>
+            </ul>
+            &nbsp;
+            <i class="material-icons sort-button">&#xE8D5;</i>
+          </div>
+        </th>
         <th class="col-sm-3">店名</th>
-        <th class="col-sm-5">地址</th>
-        <th class="col-sm-2">联系人</th>
+        <th class="col-sm-4">地址</th>
+        <th class="col-sm-1">联系人</th>
         <th class="col-sm-2">电话</th>
       </tr>
     </thead>
     <tbody>
-    	{% for shop in list %}
-	      <tr class="row">
-	      	<td class="col-sm-3">{{ shop.name }}</td>
-	        <td class="col-sm-5">{{ shop.address }}</td>
-	        <td class="col-sm-2">{{ shop.owner }}</td>
-	        <td class="col-sm-2">{{ shop.phone }}</td>
-	      </tr>
-      {% endfor %}
     </tbody>
   </table>
 </div>

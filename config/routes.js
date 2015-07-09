@@ -15,6 +15,7 @@ module.exports = function (app) {
 
   app.get('/', home.index);
   app.get('/xiaoniu-repair', xiaoniuRepair.index);
+  app.get('/xiaoniu-repair/json', xiaoniuRepair.fetchList);
 
   /**
    * Error handling
