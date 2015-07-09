@@ -1,3 +1,31 @@
+$offset: 187;
+$duration: 1.4s;
+
+@keyframes rotator {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(270deg); }
+}
+
+@keyframes colors {
+  0% { stroke: #4285F4; }
+  25% { stroke: #DE3E35; }
+  50% { stroke: #F7C223; }
+  75% { stroke: #1B9A59; }
+  100% { stroke: #4285F4; }
+}
+
+@keyframes dash {
+ 0% { stroke-dashoffset: $offset; }
+ 50% {
+   stroke-dashoffset: $offset/4;
+   transform:rotate(135deg);
+ }
+ 100% {
+   stroke-dashoffset: $offset;
+   transform:rotate(450deg);
+ }
+}
+
 @mixin box-shadow($shadows) {
   -moz-box-shadow: $shadows;
   -webkit-box-shadow: $shadows;
@@ -91,4 +119,35 @@ body {
 
 .dropdown-menu>li{
   background: #efefef;
+}
+
+.backdrop{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span{
+    padding-left: 30px;
+    font-weight: bold;
+  }
+
+  .spinner {
+    animation: rotator $duration linear infinite;
+
+    .path {
+      stroke-dasharray: $offset;
+      stroke-dashoffset: 0;
+      transform-origin: center;
+      animation:
+        dash $duration ease-in-out infinite, 
+        colors ($duration*4) ease-in-out infinite;
+    }
+  }
 }
