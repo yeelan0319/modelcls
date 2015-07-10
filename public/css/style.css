@@ -72,6 +72,10 @@ body {
   padding-top: 87px;
   font-size: 14px; }
 
+.navbar-brand i {
+  font-size: 24px;
+  display: inline; }
+
 .table-responsive {
   overflow: visible; }
 
@@ -113,3 +117,9 @@ body {
       stroke-dashoffset: 0;
       transform-origin: center;
       animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite; }
+
+.pager .previous, .pager .next {
+  padding: 0px 20px;
+  cursor: pointer; }
+  .pager .previous > span, .pager .previous > a, .pager .next > span, .pager .next > a {
+    float: none; }

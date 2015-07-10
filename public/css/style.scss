@@ -94,6 +94,11 @@ body {
   font-size: 14px;
 }
 
+.navbar-brand i {
+  font-size: 24px;
+  display: inline;
+}
+
 .table-responsive{
   overflow: visible;
 }
@@ -148,6 +153,17 @@ body {
       animation:
         dash $duration ease-in-out infinite, 
         colors ($duration*4) ease-in-out infinite;
+    }
+  }
+}
+
+.pager{
+  .previous, .next{
+    padding: 0px 20px;
+    cursor: pointer;
+
+    >span, >a{
+      float: none;
     }
   }
 }

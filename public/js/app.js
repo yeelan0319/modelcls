@@ -1,3 +1,33 @@
+var page = {
+	SIZE: 50,
+	_page: 0,
+	_max: 0,
+	_min: 0,
+	next: function(){
+		this._page++;
+		$('.pager .at').text((this._page + 1) + ' / ' + (this._max + 1));
+	},
+	prev: function(){
+		this._page--;
+		$('.pager .at').text((this._page + 1) + ' / ' + (this._max + 1));
+	},
+	reset: function(){
+		this._page = 0;
+		this._max = Math.floor(filtered.data.length / this.SIZE);
+		this.hasPrev()? $('.pager .previous').removeClass('disabled') : $('.pager .previous').addClass('disabled');
+		this.hasNext()? $('.pager .next').removeClass('disabled') : $('.pager .next').addClass('disabled');
+		$('.pager .at').text((this._page + 1) + ' / ' + (this._max + 1));
+	},
+	at: function(){
+		return this._page;
+	},
+	hasPrev: function(){
+		return this._page > this._min;
+	},
+	hasNext: function(){
+		return this._page < this._max;
+	}
+}
 var cache = {
 	province: [],  //使用filtered渲染dropdown
 	city: [],
@@ -21,7 +51,9 @@ $(document).ready(function(){
   	//缓存原始数据和不会反复修改的省份数据
   	cache.data = _.sortByOrder(JSON.parse(data), ['province', 'city'], [order.province, order.city]);
   	filtered.data = cache.data;
-  	renderList();
+  	renderList(function(){
+  		page.reset();
+  	});
 
   	//为了防止大量计算影响渲染进程，影响用户体验，延迟计算
   	setTimeout(function(){
@@ -49,6 +81,7 @@ $(document).ready(function(){
   		var target = $(e.target).parents('.dropdown').hasClass('province')? 'province' : 'city';
   		order[target] = order[target] === 'asc'? 'desc' : 'asc';
 			filtered.data = _.sortByOrder(filtered.data, [target], [order[target]]);
+			page.reset();
   	});
   });
   
@@ -93,13 +126,14 @@ $(document).ready(function(){
 		  	return ~filtered.province.indexOf(shop.province) && ~filtered.city.indexOf(shop.city);
 			});
 			filtered.data = _.sortByOrder(filtered.data, [target], [order[target]]);
+			page.reset();
  		});
   });
 
   //当item选中状态改变的时候，
   $('.dropdown .dropdown-menu').delegate('li .check-all', 'click', function(e){
   	e.stopPropagation();
-  	
+
   	renderList(function(){
   		var target = $(e.target).parents('.dropdown').hasClass('province')? 'province' : 'city';
 	  	var $el = target === 'province'? $('.province.dropdown .dropdown-checklist') : $('.city.dropdown .dropdown-checklist');
@@ -128,8 +162,23 @@ $(document).ready(function(){
 		  	return ~filtered.province.indexOf(shop.province) && ~filtered.city.indexOf(shop.city);
 			});
 			filtered.data = _.sortByOrder(filtered.data, [target], [order[target]]);
+			page.reset();
   	});	
   });
+
+	//上一页，下一页
+	$('.pager li').click(function(e){
+		var $el = $(this);
+
+		if($el.hasClass('disabled')) {
+			return;
+		}
+		renderList(function(){
+			$el.hasClass('previous')? page.prev() : page.next();
+			page.hasPrev()? $('.pager .previous').removeClass('disabled') : $('.pager .previous').addClass('disabled');
+			page.hasNext()? $('.pager .next').removeClass('disabled') : $('.pager .next').addClass('disabled');
+		});
+	});
 });
 
 function renderDropdown(type){
@@ -156,7 +205,7 @@ function renderList(fn){
 			fn();
 		}
 		//render the page using new calculated data
-		_.each(filtered.data, function(shop){
+		_.each(_.slice(filtered.data, page.at() * page.SIZE, (page.at() + 1) * page.SIZE), function(shop){
 			$('tbody').append(Handlebars.templates[location.pathname.slice(1)](shop));
 		});
 		toggleSpinner(false);
@@ -166,8 +215,10 @@ function renderList(fn){
 function toggleSpinner(openSpinner){
 	if(openSpinner){
 		$('.backdrop').show();
+		$('.pager').hide();
 	}
 	else{
 		$('.backdrop').hide();
+		$('.pager').show();
 	}
 }
